@@ -10,5 +10,5 @@ Mamoi PDF is a desktop application that allows you to search for PDF files on th
 - **User-friendly Interface**: The interface is simple and intuitive, making the program easy to use.
 
 ## Releases
-[Version 1.2.0](https://github.com/xHellish/Mamoi-PDF/releases/tag/v1.2.0)
+[Version 1.2.0](https://github.com/xHellish/Mamoi-PDF/releases/download/v1.2.0/Mamoi_PDF_v1.2.exe)
 
