@@ -35,6 +35,16 @@ def descargar_pdf(pdf_url, nombre_archivo):
                 with open(ruta_archivo, 'wb') as f:
                     f.write(response.content)
                 print(f"PDF descargado correctamente en: {ruta_archivo}")
+
+                # Mensaje de descarga completa
+                aviso = libs.QMessageBox(libs.QMessageBox.Information, "DESCARGA COMPLETADA", f"Archivo Guardado con éxito.\nRuta: {ruta_archivo}")
+
+                respuesta = aviso.exec_()
+                if respuesta == libs.QMessageBox.Save:
+                    print("Guardando...")
+                elif respuesta == libs.QMessageBox.Discard:
+                    print("Descartando cambios...")
+
             else:
                 print(f"Error al descargar el PDF: {response.status_code}")
         except Exception as e:
