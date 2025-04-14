@@ -205,6 +205,13 @@ def pdf_page_to_pixmap(pdf_url, resolution=200):
         return None
 
 # --------------------------------------- #
-# EVENTS
+# RESOURCE PATH
+def resource_path(relative_path):
+    """ Convierte rutas relativas a rutas absolutas para PyInstaller """
+    if hasattr(libs.sys, '_MEIPASS'):  # Si está empaquetado en el .exe
+        base_path = libs.sys._MEIPASS
+    else:  # Si está en desarrollo
+        base_path = libs.os.path.abspath(".")
+    return libs.os.path.join(base_path, relative_path)
 
 

@@ -182,7 +182,7 @@ def add_pdf_to_list(pdf_url, widget_cont):
             label_imagen_pdf_page1.move(0, 0)
 
             if toggle_search.text() == "ON":
-                page_1_pdf_Qpixmap = libs.QPixmap("pdf_icon.png")  # Asignar icono word default
+                page_1_pdf_Qpixmap = libs.QPixmap(aux_tools_funcs.resource_path("pdf_icon.png"))  # Asignar icono word default
                 label_imagen_pdf_page1.move(5, 23)
 
             else:
@@ -439,7 +439,7 @@ app = libs.QApplication(libs.sys.argv)
 # Crear la ventana principal
 root = libs.QWidget()
 root.setWindowTitle("MAMOI PDF")
-root.setWindowIcon(libs.QtGui.QIcon("mmoi_pdf.ico"))
+root.setWindowIcon(libs.QtGui.QIcon(aux_tools_funcs.resource_path("mmoi_pdf.ico")))
 root.setGeometry(100, 100, 1280, 720)  # Establecer el tamaño de la ventana
 root.setStyleSheet("""
     background-color: #9b4d96;  /* Morado oscuro */
