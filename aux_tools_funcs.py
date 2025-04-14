@@ -17,6 +17,9 @@ def search_pdf_online(query):
 
 # DESCARGAR PDF
 def descargar_pdf(pdf_url, nombre_archivo):
+
+    parent = None
+
     # Abre un cuadro de diálogo para que el usuario elija dónde guardar el archivo
     ruta_archivo, _ = libs.QFileDialog.getSaveFileName(
         None,  # Ventana principal
@@ -47,10 +50,28 @@ def descargar_pdf(pdf_url, nombre_archivo):
 
             else:
                 print(f"Error al descargar el PDF: {response.status_code}")
+                error_msg = libs.QMessageBox(parent)
+                error_msg.setIcon(libs.QMessageBox.Critical)
+                error_msg.setWindowTitle("Error Inesperado")
+                error_msg.setText("Ocurrió un error al descargar el PDF")
+                error_msg.exec_()
+
         except Exception as e:
             print(f"Ocurrió un error: {e}")
+            error_msg = libs.QMessageBox(parent)
+            error_msg.setIcon(libs.QMessageBox.Critical)
+            error_msg.setWindowTitle("Error Inesperado")
+            error_msg.setText("Ocurrió un error inesperado")
+            error_msg.setInformativeText(str(e))
+            error_msg.exec_()
+
     else:
         print("No se seleccionó ninguna ubicación para guardar el archivo.")
+        error_msg = libs.QMessageBox(parent)
+        error_msg.setIcon(libs.QMessageBox.Critical)
+        error_msg.setWindowTitle("Error Inesperado")
+        error_msg.setText("Se ha cancelado la descarga del PDF")
+        error_msg.exec_()
 
 # --------------------------------------- #
 # LIMPIAR FRAME

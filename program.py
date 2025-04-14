@@ -177,17 +177,24 @@ def add_pdf_to_list(pdf_url, widget_cont):
         try:
 
             # ------------------------------------------------ #
-            # IMAGEN
+            # IMAGEN / ICONO PDF
             label_imagen_pdf_page1 = libs.QLabel(frame_container_image_pixmap)
+            label_imagen_pdf_page1.move(0, 0)
 
-            # Obtener el pixmap de la primera página
-            page_1_pdf_pixmap = aux_tools_funcs.pdf_page_to_pixmap(pdf_url, 30)
-            
-            # Asegurarse de que la imagen es un QPixmap
-            page_1_pdf_Qpixmap = aux_tools_funcs.pix_to_Qpix(page_1_pdf_pixmap)
+            if toggle_search.text() == "ON":
+                page_1_pdf_Qpixmap = libs.QPixmap("pdf_icon.png")  # Asignar icono word default
+                label_imagen_pdf_page1.move(5, 23)
+
+            else:
+                
+                # Obtener el pixmap de la primera página
+                page_1_pdf_pixmap = aux_tools_funcs.pdf_page_to_pixmap(pdf_url, 30)
+                
+                # Asegurarse de que la imagen es un QPixmap
+                page_1_pdf_Qpixmap = aux_tools_funcs.pix_to_Qpix(page_1_pdf_pixmap)
 
             # Redimensionar el pixmap a un tamaño estándar manteniendo la relación de aspecto
-            scaled_pixmap = page_1_pdf_Qpixmap.scaled(150, 200, libs.Qt.KeepAspectRatio)
+            scaled_pixmap = page_1_pdf_Qpixmap.scaled(140, 190, libs.Qt.KeepAspectRatio)
 
             # Establecer el pixmap redimensionado en el label
             label_imagen_pdf_page1.setPixmap(scaled_pixmap)
@@ -381,9 +388,44 @@ def load_pdf_from_url(pdf_url, frame):
         frame.layout().addWidget(buttons_frame)
 
     except libs.requests.exceptions.RequestException as e:
-        print(f"Error al descargar el PDF: {e}")
+        print(f"Error al descargar el temp de el PDF: {e}")
+
+        error_label = libs.QLabel("Previsualización no disponible")
+        error_label.setAlignment(libs.Qt.AlignCenter)
+        error_label.setStyleSheet("""
+            QLabel {
+                background-color: #ffebee;  /* Rojo muy claro */
+                color: #c62828;            /* Rojo oscuro */
+                font-family: 'Segoe UI';
+                font-size: 18px;
+                padding: 15px;
+                border-radius: 8px;
+                border: 1px solid #ef9a9a; /* Borde rojo claro */
+                margin: 10px;
+            }
+        """)
+        error_label.setWordWrap(True)
+        frame.layout().addWidget(error_label)
+
     except Exception as e:
         print(f"Error al procesar el PDF: {e}")
+
+        error_label = libs.QLabel("Previsualización no disponible")
+        error_label.setAlignment(libs.Qt.AlignCenter)
+        error_label.setStyleSheet("""
+            QLabel {
+                background-color: #ffebee;  /* Rojo muy claro */
+                color: #c62828;            /* Rojo oscuro */
+                font-family: 'Segoe UI';
+                font-size: 18px;
+                padding: 15px;
+                border-radius: 8px;
+                border: 1px solid #ef9a9a; /* Borde rojo claro */
+                margin: 10px;
+            }
+        """)
+        error_label.setWordWrap(True)
+        frame.layout().addWidget(error_label)
 
 # --------------------------------------- #
 # AL CERRAR
@@ -526,7 +568,41 @@ search_button.setStyleSheet("""
     border: none;
 """)
 search_button.setFixedWidth(200)
-search_button.move(50, 100)
+search_button.move(20, 100)
+
+# ------------------------------------------- #
+# TOGGLE BUTTON (Nuevo - junto al botón de búsqueda)
+toggle_search = libs.QPushButton("OFF", search_frame)
+toggle_search.setCheckable(True)
+toggle_search.setStyleSheet("""
+    QPushButton {
+        background-color: #ffd6e7;  /* Rosa claro */
+        color: #8a2d6e;           /* Violeta oscuro */
+        font: bold 10px 'Segoe UI';
+        padding: 5px;
+        border-radius: 15px;
+        border: 2px solid #d6336c; /* Rosa fuerte */
+    }
+    QPushButton:checked {
+        background-color: #d6336c; /* Rosa fuerte */
+        color: white;
+    }
+    QToolTip {
+        background-color: #a61e4d;  /* Fondo rosa oscuro */
+        color: white;             /* Texto blanco */
+        border: 0px solid #d6336c;
+        border-radius: 4px;
+        padding: 3px;
+        font: 12px 'Segoe UI';
+    }
+""")
+toggle_search.setFixedWidth(65)
+toggle_search.setFixedHeight(31)
+toggle_search.move(235, 102)  # Posicionado junto al botón de búsqueda
+toggle_search.setToolTip("Modo de búsqueda rápida")
+
+# Cambiar texto ON/OFF dinámicamente
+toggle_search.toggled.connect(lambda state: toggle_search.setText("ON" if state else "OFF"))
 
 # --------------------------------------------------------------- #
 # Crear barra de título personalizada con botones de minimizar y cerrar
